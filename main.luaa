@@ -1,0 +1,124 @@
+-- ScriptPLUG Loader (Rebranded)
+-- Key: SricptsPlug1267
+
+local key = "SricptsPlug1267"
+
+-- Simple key check (replace with GUI input if needed)
+local inputKey = key
+if inputKey ~= key then
+    warn("Invalid Key!")
+    return
+end
+
+-- Create main ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ScriptPLUG"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.DisplayOrder = 999999
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Name = "MainFrame"
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+frame.Size = UDim2.new(0, 650, 0, 450)
+frame.Position = UDim2.fromScale(0.15, 0.15)
+frame.AnchorPoint = Vector2.new(0,0)
+frame.Parent = ScreenGui
+frame.Active = true
+frame.Draggable = true
+
+local uicorner = Instance.new("UICorner")
+uicorner.CornerRadius = UDim.new(0, 25)
+uicorner.Parent = frame
+
+-- Header
+local header = Instance.new("Frame")
+header.Size = UDim2.new(1, 0, 0, 60)
+header.BackgroundColor3 = Color3.fromRGB(70, 70, 90)
+header.Parent = frame
+
+local headerCorner = Instance.new("UICorner")
+headerCorner.CornerRadius = UDim.new(0, 25)
+headerCorner.Parent = header
+
+local title = Instance.new("TextLabel")
+title.Text = "✨ ScriptPLUG ✨"
+title.Font = Enum.Font.FredokaOne
+title.TextSize = 36
+title.TextColor3 = Color3.fromRGB(200, 220, 255)
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, 0, 1, 0)
+title.Parent = header
+
+-- Close Button
+local closeBtn = Instance.new("TextButton")
+closeBtn.Text = "❌"
+closeBtn.Size = UDim2.new(0, 45, 0, 45)
+closeBtn.Position = UDim2.new(1, -55, 0, 7)
+closeBtn.BackgroundColor3 = Color3.fromRGB(120, 50, 50)
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.FredokaOne
+closeBtn.TextSize = 28
+closeBtn.Parent = frame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 15)
+closeCorner.Parent = closeBtn
+
+closeBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Script Buttons Container
+local buttonHolder = Instance.new("ScrollingFrame")
+buttonHolder.Size = UDim2.new(1, -40, 1, -80)
+buttonHolder.Position = UDim2.new(0, 20, 0, 70)
+buttonHolder.BackgroundTransparency = 1
+buttonHolder.CanvasSize = UDim2.new(0,0,0,0)
+buttonHolder.ScrollBarThickness = 10
+buttonHolder.Parent = frame
+
+-- UIListLayout for buttons
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 10)
+layout.SortOrder = Enum.SortOrder.LayoutOrder
+layout.Parent = buttonHolder
+
+-- Script definitions
+local scripts = {
+    {Name = "Arsenal", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Arsenal.lua"},
+    {Name = "Planks", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Planks.lua"},
+    {Name = "Hypershot", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Hypershot.lua"},
+    {Name = "Rivals", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Rivals.lua"},
+    {Name = "Counterblox", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Counterblox.lua"},
+    {Name = "Gunfight Arena", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/GunfightArena.lua"},
+    {Name = "Universal", URL = "https://raw.githubusercontent.com/oceanlol/ScriptPLUG/main/Universal.lua"}
+}
+
+-- Create buttons
+for _, s in pairs(scripts) do
+    local btn = Instance.new("TextButton")
+    btn.Text = s.Name
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 24
+    btn.TextColor3 = Color3.fromRGB(240, 240, 255)
+    btn.BackgroundColor3 = Color3.fromRGB(70, 70, 100)
+    btn.Size = UDim2.new(1, 0, 0, 50)
+    btn.Parent = buttonHolder
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 15)
+    corner.Parent = btn
+
+    btn.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet(s.URL))()
+    end)
+end
+
+-- Update scrolling
+buttonHolder.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    buttonHolder.CanvasSize = UDim2.new(0,0,0, layout.AbsoluteContentSize.Y)
+end)
