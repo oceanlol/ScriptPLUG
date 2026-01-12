@@ -1,0 +1,1 @@
+print("Counterblox script loaded!")

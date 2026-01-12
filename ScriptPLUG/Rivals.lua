@@ -1,0 +1,1 @@
+print("Rivals script loaded!")
